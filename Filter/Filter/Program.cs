@@ -62,10 +62,13 @@ namespace Filter
                         //send analytics on every 10th message
                         if (count[vrednostSenzora.Device] == 10)
                         {
-
+                            DateTime now = DateTime.UtcNow;
+                            string formattedDate = now.ToString("o"); // This will give you a string in RFC3339 format
 
                             AnalyticsDTO analyticsDTO = new AnalyticsDTO
                             {
+
+                                FormatedDateTime = formattedDate,
                                 Date = DateTime.Now.Date,
                                 Time = DateTime.Now.TimeOfDay,
                                 Device = vrednostSenzora.Device,

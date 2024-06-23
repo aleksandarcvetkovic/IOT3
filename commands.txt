@@ -19,6 +19,7 @@ ports:
       - "1883:1883"
       - "9001:9001"
 
+**********************NATS****************
 
 docker pull nats:latest
 docker run -p 4222:4222 -ti nats:latest
@@ -26,3 +27,16 @@ docker run -p 4222:4222 -ti nats:latest
 docker run -d --name nats-server -p 4222:4222 -p 8222:8222 nats:latest -m 8222
 
 Open your web browser and go to http://localhost:8222. This page provides various metrics and information about the NATS server
+
+*************************InfluxDb***********************
+
+docker pull influxdb
+
+docker volume create influxdb-data
+
+docker run -d --name influxdb-container -p 8086:8086 -v influxdb-data:/var/lib/influxdb influxdb
+
+http://localhost:8086
+
+token:
+1lJjTQXQ8enhq6tRk4VbbyvkIAFhSAVMmOVmC_EoSD4VombXR27bHUNa1DohmXiRcFJ-abTN03cSkl7DQAVpbA==

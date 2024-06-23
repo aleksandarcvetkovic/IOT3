@@ -8,6 +8,7 @@ namespace Filter
 {
     public class AnalyticsDTO
     {
+        public string FormatedDateTime { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
         public int Device { get; set; }
