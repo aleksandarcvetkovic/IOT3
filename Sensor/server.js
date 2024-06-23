@@ -1,11 +1,11 @@
 const { MongoClient } = require('mongodb');
 const mqtt = require('mqtt');
 
-const mongoUrl = 'mongodb://mongoumrezi:27017'; // Replace with your MongoDB URL
+const mongoUrl = 'mongodb://localhost:27017'; // Replace with your MongoDB URL
 const dbName = 'sobadb'; // Replace with your database name
 const collectionName = 'senzor'; // Replace with your collection name
 
-const mqttUrl = 'mqtt://mqttumrezi:1883'; // MQTT broker URL
+const mqttUrl = 'mqtt://localhost:1883'; // MQTT broker URL
 const client = new MongoClient(mongoUrl);
 
 async function findAllDocuments(collection) {
@@ -56,7 +56,7 @@ async function main() {
         console.log('Message published:', message);
         //sleep for 3 second
       });
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
     }
    
   });

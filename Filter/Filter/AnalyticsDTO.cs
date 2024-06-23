@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Analytics
+namespace Filter
 {
-    internal class AnalyticsDTO
+    public class AnalyticsDTO
     {
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
