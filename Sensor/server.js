@@ -51,12 +51,24 @@ async function main() {
   mqttClient.on('connect', async () => {
 
     for(let i = 0; i < data.length; i++){
+      //prvi senzor
+      data[i].device = 1111;
+      data[i].date = new Date();
+      data[i].time = new Date().getTime();
       const message = JSON.stringify(data[i]);
       mqttClient.publish('merenje', message, () => {
         console.log('Message published:', message);
-        //sleep for 3 second
       });
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      index2 = data.length - 1 - i;
+      data[index2].device = 2222;
+      data[index2].date = new Date();
+      data[index2].time = new Date().getTime();
+      const message2 = JSON.stringify(data[index2]);
+      mqttClient.publish('merenje', message2, () => {
+        console.log('Message published:', message2);
+      });
+      //drugi senzor
+      await new Promise(resolve => setTimeout(resolve, 5000));
     }
    
   });

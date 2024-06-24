@@ -38,7 +38,7 @@ async def run():
                 .field("avg_humidity", dataJson.get("AverageHumidity")) \
                 .field("avg_temperature", dataJson.get("AverageTemperature")) \
                 .field("battery", dataJson.get("Battery")) \
-                .time(dataJson.get("point_time"))
+                .time(dataJson.get(point_time))
 
             # Write data to InfluxDB
             write_api.write(bucket=bucket, org="elfak", record=point)

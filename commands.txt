@@ -40,3 +40,16 @@ http://localhost:8086
 
 token:
 1lJjTQXQ8enhq6tRk4VbbyvkIAFhSAVMmOVmC_EoSD4VombXR27bHUNa1DohmXiRcFJ-abTN03cSkl7DQAVpbA==
+
+
+***********************************Grafana**************************
+
+docker pull grafana/Grafana
+
+docker run -d --name=grafana -p 3000:3000 grafana/Grafana
+
+*****************************ekuiper*******************
+
+docker pull lfedge/ekuiper
+
+docker run -p 9081:9081 -d --name kuiper -e MQTT_SOURCE__DEFAULT__SERVER="tcp://broker.emqx.io:1883" lfedge/ekuiper:$tag
