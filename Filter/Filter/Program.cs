@@ -62,9 +62,7 @@ namespace Filter
                         //send analytics on every 10th message
                         if (count[vrednostSenzora.Device] == 10)
                         {
-                            //DateTime now = DateTime.UtcNow;
-                            //string formattedDate = now.ToString("o"); // This will give you a string in RFC3339 format
-
+                          
                             AnalyticsDTO analyticsDTO = new AnalyticsDTO
                             {
 
@@ -82,54 +80,15 @@ namespace Filter
 
                             string json = JsonConvert.SerializeObject(analyticsDTO);
                             byte[] data = Encoding.UTF8.GetBytes(json);
-                            // Publish a message to the subject
+                            // Publish a message to Nats
                             conn.Publish(subject, data);
 
                             // Flush the connection to ensure the message is sent
                             conn.Flush();
                             Console.WriteLine($"\nPublished on nats: {json}\n");
 
-                            /*
-                            var mqttApplicationMessage = new MqttApplicationMessageBuilder()
-                                .WithTopic("analytics")
-                                .WithPayload(JsonConvert.SerializeObject(analyticsDTO))
-                                .Build();
-
-                            mqttClient.PublishAsync(mqttApplicationMessage, CancellationToken.None);
-                            Console.WriteLine("Analytics sent.");
-                            */
                         }
-                        /*
-
-                        String poruka = "";
-                        if (vrednostSenzora.Temperature < 20)
-                            poruka = "Temperatura je ispod 20 stepeni\n";
-                        if (vrednostSenzora.Humidity < 30)
-                            poruka += "Vlaznost vazduha je ispod 30%.\n";
-                        if(vrednostSenzora.Battery < 1)
-                            poruka += "Baterija je prazna.";
-
-                        if(poruka != "")
-                        { 
-                            EventDTO eventDTO = new EventDTO
-                            {
-                                Date = vrednostSenzora.Date,
-                                Time = vrednostSenzora.Time,
-                                Device = vrednostSenzora.Device,
-                                Battery = vrednostSenzora.Battery,
-                                Humidity = vrednostSenzora.Humidity,
-                                Temperature = vrednostSenzora.Temperature,
-                                Message = poruka
-                            };
-                            var mqttApplicationMessage = new MqttApplicationMessageBuilder()
-                                .WithTopic("event")
-                                .WithPayload(JsonConvert.SerializeObject(eventDTO))
-                                .Build();
-
-                            mqttClient.PublishAsync(mqttApplicationMessage, CancellationToken.None);
-                            Console.WriteLine("Event sent.");
-                        }
-                        */
+                      
 
                         return Task.CompletedTask;
                     };

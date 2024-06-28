@@ -44,16 +44,26 @@ services:
       - mreza
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning/
   sensor:
     image: sensorservice
     container_name: sensorumrezi
     networks:
       - mreza
+    depends_on:
+      - mqtt
+      - mongo
+    restart: unless-stopped
   filter:
     image: filterservice
     container_name: filterumrezi
     networks:
       - mreza
+    depends_on:
+      - sensor
+    restart: unless-stopped
   dashboard:
     image: dashboardservice
     container_name: dashboardumrezi
@@ -61,6 +71,9 @@ services:
       - INFLUXDB_TOKEN=yLCZWM3UhcvsB17gKCgP0bhJfa__dUywHOZommsBbl4KG5ZxmMJeD6Xrzhyu6flD8NFdp_zyPNVcvQFxcXDPGA==
     networks:
       - mreza
+    depends_on:
+      - filter
+    restart: unless-stopped
   ekuiper-manager:
     image: emqx/ekuiper-manager
     container_name: ekuiper-manager
@@ -89,6 +102,20 @@ services:
       KUIPER__BASIC__IGNORECASE: "false"
     networks:
       - mreza
+  command:
+    image: commandservice
+    container_name: commandumrezi
+    networks:
+      - mreza
+    depends_on:
+      - sensor
+      - ekuiper
+    volumes:
+      - ./Command:/usr/src/app
+      - ./Command/node_modules:/usr/src/app/node_modules
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
 networks:
   mreza:
 volumes:
@@ -101,4 +128,6 @@ volumes:
   ekuiper_plugins:
     driver: local
   ekuiper_manager_data:
+    driver: local
+  grafana-data:
     driver: local

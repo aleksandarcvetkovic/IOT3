@@ -10,6 +10,9 @@ docker build -t filterservice .
 //U folderu Dashboard
 docker build -t dashboardservice .
 
+//U folderu Command
+docker build -t commandservice .
+
 //Prvi put pokrenuti scv to mongo, izmeniti putanju do csv fajla
 
 //U glavnom folderu

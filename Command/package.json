@@ -1,0 +1,17 @@
+{
+  "name": "command",
+  "version": "1.0.0",
+  "description": "Prihvata poruke iz ekuipera i prikazuje na webu",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Aleksandar Cvetkovic",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mqtt": "^5.7.3",
+    "ws": "^8.17.1"
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sensor Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Device</th>
+                <th>Battery</th>
+                <th>Humidity</th>
+                <th>Temperature</th>
+            </tr>
+        </thead>
+        <tbody id="sensor-data">
+            <!-- Sensor data will be appended here -->
+        </tbody>
+    </table>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3001');
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const table = document.getElementById('sensor-data');
+            const row = document.createElement('tr');
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = data.date;
+            row.appendChild(dateCell);
+
+            const timeCell = document.createElement('td');
+            timeCell.textContent = data.time;
+            row.appendChild(timeCell);
+
+            const deviceCell = document.createElement('td');
+            deviceCell.textContent = data.device;
+            row.appendChild(deviceCell);
+
+            const batteryCell = document.createElement('td');
+            batteryCell.textContent = data.battery;
+            row.appendChild(batteryCell);
+
+            const humidityCell = document.createElement('td');
+            humidityCell.textContent = data.humidity;
+            row.appendChild(humidityCell);
+
+            const temperatureCell = document.createElement('td');
+            temperatureCell.textContent = data.temperature;
+            row.appendChild(temperatureCell);
+
+            table.appendChild(row);
+        };
+    </script>
+</body>
+</html>
