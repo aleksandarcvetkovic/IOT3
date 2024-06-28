@@ -21,7 +21,7 @@ namespace Filter
 
             // Define NATS connection options
             Options opts = ConnectionFactory.GetDefaultOptions();
-            opts.Url = "nats://localhost:4222";  // Update the URL if your NATS server is hosted elsewhere
+            opts.Url = "nats://natsumrezi:4222";  // Update the URL if your NATS server is hosted elsewhere
 
             // Create a connection factory
             IConnectionFactory cf = new ConnectionFactory();
@@ -35,7 +35,7 @@ namespace Filter
 
                 using (var mqttClient = mqttFactory.CreateMqttClient())
                 {
-                    var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost").Build();
+                    var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("mqttumrezi").Build();
 
                     mqttClient.ApplicationMessageReceivedAsync += e =>
                     {

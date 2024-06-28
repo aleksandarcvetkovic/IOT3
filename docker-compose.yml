@@ -1,0 +1,70 @@
+version: '3'
+services:
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongoumrezi
+    networks:
+      - mreza
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+  mqtt:
+    image: eclipse-mosquitto
+    container_name: mqttumrezi
+    volumes:
+      - ./Mosquitto/config:/mosquitto/config
+      - ./Mosquitto/data:/mosquitto/data
+    networks:
+      - mreza
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+  nats:
+    image: nats
+    container_name: natsumrezi
+    networks:
+      - mreza
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+  influxdb:
+    image: influxdb:2.0
+    container_name: influxdbumrezi
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    networks:
+      - mreza
+  grafana:
+    image: grafana/grafana
+    container_name: grafanaumrezi
+    networks:
+      - mreza
+    ports:
+      - "3000:3000"
+  sensor:
+    image: sensorservice
+    container_name: sensorumrezi
+    networks:
+      - mreza
+  filter:
+    image: filterservice
+    container_name: filterumrezi
+    networks:
+      - mreza
+  dashboard:
+    image: dashboardservice
+    container_name: dashboardumrezi
+    environment:
+      - INFLUXDB_TOKEN=yLCZWM3UhcvsB17gKCgP0bhJfa__dUywHOZommsBbl4KG5ZxmMJeD6Xrzhyu6flD8NFdp_zyPNVcvQFxcXDPGA==
+    networks:
+      - mreza
+networks:
+  mreza:
+volumes:
+  mongo-data:
+    driver: local
+  influxdb-data:
+    driver: local

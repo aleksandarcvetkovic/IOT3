@@ -6,10 +6,10 @@ import influxdb_client, os, time
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 # Configuration
-nats_url = "nats://localhost:4222"
-token = "1lJjTQXQ8enhq6tRk4VbbyvkIAFhSAVMmOVmC_EoSD4VombXR27bHUNa1DohmXiRcFJ-abTN03cSkl7DQAVpbA=="
+nats_url = "nats://natsumrezi:4222"
+influxdb_token = os.getenv('INFLUXDB_TOKEN')
 org = "elfak"
-url = "http://localhost:8086"
+url = "http://influxdbumrezi:8086"
 bucket="senzor"
 
 
@@ -17,12 +17,13 @@ async def run():
     # Connect to NATS
     nc = await nats.connect(nats_url)
     print(f"Connected to NATS at {nats_url}")
-    write_client = influxdb_client.InfluxDBClient(url=url, token=token, org=org)
+    write_client = influxdb_client.InfluxDBClient(url=url, token=influxdb_token, org=org)
     write_api = write_client.write_api(write_options=SYNCHRONOUS)
-
+    print(f"Connected to InfluxDB at {url}", flush=True)
+    print(f"Using InfluxDB token: {influxdb_token}", flush=True)
     async def message_handler(msg):
         data = msg.data.decode()
-        print(f"Received a message: {data}")
+        print(f"Received a message: {data}", flush=True)
        
 
         try:
@@ -42,20 +43,21 @@ async def run():
 
             # Write data to InfluxDB
             write_api.write(bucket=bucket, org="elfak", record=point)
-            print(f"Stored data in InfluxDB: {data}")
+            print(f"Stored data in InfluxDB: {data}", flush=True)
 
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
         except Exception as e:
-            print(f"Error storing data in InfluxDB: {e}")
+            print(f"Error storing data in InfluxDB: {e}", flush=True)
 
     
     # Subscribe to a subject
     await nc.subscribe("prosek", cb=message_handler)
-    print(f"Subscribed to 'prosek' subject")
+    print(f"Subscribed to 'prosek' subject", flush=True)
     # Keep the connection alive
     while True:
         await asyncio.sleep(1)
 
 if __name__ == "__main__":
+    print("Starting Dashboard service...", flush=True)
     asyncio.run(run())

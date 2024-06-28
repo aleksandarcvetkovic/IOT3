@@ -1,8 +1,27 @@
-//u folderu sensor
+////////////////////////////////////KOMANDE ZA POKRETANJE
+
+
+//U folderu sensor
 docker build -t sensorservice .
 
+//U folderu Filter/Filter
+docker build -t filterservice .
 
-*********************************************** ne treba za pokretanje, samo beleske
+//U folderu Dashboard
+docker build -t dashboardservice .
+
+//Prvi put pokrenuti scv to mongo, izmeniti putanju do csv fajla
+
+//U glavnom folderu
+docker-compose up
+
+docker-compose down
+
+//////////////////////////////////// ne treba za pokretanje, samo beleske
+
+
+*******************Mosquitto*******************
+
 
 docker pull eclipse-mosquitto
 
@@ -41,12 +60,18 @@ http://localhost:8086
 token:
 1lJjTQXQ8enhq6tRk4VbbyvkIAFhSAVMmOVmC_EoSD4VombXR27bHUNa1DohmXiRcFJ-abTN03cSkl7DQAVpbA==
 
+KQH3m7RORej61RYcAbA1vkXSubsQoRNMAFi5ytXC6gUrz0sVIuxMmkdZ1ddhYMp_WYGd68M_WAfUjtotef3NzA==
+
+0fELvQr89BHVjlqL5sNXKzjgUYCTPbS3MDq6h1R_nZNrpZnpiVDzPTpwwJRCCcsi_UTo3IW4MYvhU0ZQnW3syg==
+
 
 ***********************************Grafana**************************
 
 docker pull grafana/Grafana
 
 docker run -d --name=grafana -p 3000:3000 grafana/Grafana
+
+http://localhost:3000
 
 *****************************ekuiper*******************
 
