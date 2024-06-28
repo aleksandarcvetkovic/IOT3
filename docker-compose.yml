@@ -61,10 +61,44 @@ services:
       - INFLUXDB_TOKEN=yLCZWM3UhcvsB17gKCgP0bhJfa__dUywHOZommsBbl4KG5ZxmMJeD6Xrzhyu6flD8NFdp_zyPNVcvQFxcXDPGA==
     networks:
       - mreza
+  ekuiper-manager:
+    image: emqx/ekuiper-manager
+    container_name: ekuiper-manager
+    ports:
+      - "9082:9082"
+    restart: unless-stopped
+    environment:
+      DEFAULT_EKUIPER_ENDPOINT: "http://ekuiperumrezi:9081"
+    networks:
+      - mreza
+  ekuiper:
+    image: lfedge/ekuiper
+    ports:
+      - "9081:9081"
+      - "127.0.0.1:20498:20498"
+    container_name: ekuiperumrezi
+    hostname: ekuiper
+    restart: unless-stopped
+    user: root
+    volumes:
+      - /tmp/data:/kuiper/data
+      - /tmp/log:/kuiper/log
+    environment:
+      MQTT_SOURCE__DEFAULT__SERVER: "mqtt://mqttumrezi:1883"
+      KUIPER__BASIC__CONSOLELOG: "true"
+      KUIPER__BASIC__IGNORECASE: "false"
+    networks:
+      - mreza
 networks:
   mreza:
 volumes:
   mongo-data:
     driver: local
   influxdb-data:
+    driver: local
+  ekuiper_data:
+    driver: local
+  ekuiper_plugins:
+    driver: local
+  ekuiper_manager_data:
     driver: local
